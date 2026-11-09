@@ -320,11 +320,12 @@
       border: 1px solid #e2e8f0;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
       cursor: pointer;
-      transition: transform 0.15s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .stat-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
     }
 
     .stat-header {
@@ -375,7 +376,7 @@
       color: #1a202c;
     }
 
-    /* Subjects Grid */
+    /* Subjects Grid with Hover Animation */
     .subjects-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -390,12 +391,12 @@
       border-top-width: 4px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .subject-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.1);
     }
 
     .card-teal { border-top-color: #14b8a6; }
@@ -433,10 +434,13 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     .task-item:hover {
       background-color: #fafbfc;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     }
 
     .task-left {
@@ -481,6 +485,11 @@
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background-color: #005fa3;
     }
 
     /* Page View Dynamic */
@@ -505,6 +514,7 @@
       cursor: pointer;
       margin-bottom: 20px;
       border: none;
+      transition: background 0.2s ease;
     }
 
     .btn-back:hover {
@@ -537,6 +547,11 @@
       background-color: #f8fafc;
       margin-top: 15px;
       margin-bottom: 20px;
+      transition: border-color 0.2s ease;
+    }
+
+    .upload-box:hover {
+      border-color: #168a9b;
     }
 
     .upload-label {
@@ -727,7 +742,7 @@
                 <i data-lucide="file-text" color="#d97706"></i>
                 <div>
                   <h4 class="task-name">Luyện tập tuần 9</h4>
-                  <p class="task-sub">Tiếng Việt • Cô Hoàng Ngân • Hạn 07/11/2026</p>
+                  <p class="task-sub">Tiếng Việt • Cô Hoàng Ngân • Hạn 15/11/2026</p>
                 </div>
               </div>
               <div class="task-right">
@@ -740,7 +755,7 @@
                 <i data-lucide="check-circle-2" color="#0369a1"></i>
                 <div>
                   <h4 class="task-name">Ôn tập số thập phân</h4>
-                  <p class="task-sub">Toán • Cô Hoàng Hà • Hạn 06/11/2026</p>
+                  <p class="task-sub">Toán • Cô Hoàng Hà • Hạn 12/11/2026</p>
                 </div>
               </div>
               <div class="task-right">
