@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VTO EDULAB | Đăng Nhập & Học Tập</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: #f2f7fb;
+      color: #2c3e50;
+      line-height: 1.5;
+    }
+
+    /* Màn hình Đăng nhập (Login Screen) */
+    .login-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #09597e 0%, #168a9b 100%);
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      padding: 40px 32px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .login-logo {
+      background-color: #168a9b;
+      color: #ffffff;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 28px;
+      margin: 0 auto 16px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #168a9b;
+      margin-bottom: 4px;
+    }
+
+    .login-sub {
+      font-size: 12px;
+      color: #718096;
+      font-weight: 600;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4a5568;
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: #168a9b;
+    }
+
+    .login-error {
+      color: #e53e3e;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .btn-login {
+      width: 100%;
+      background-color: #168a9b;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background-color: #0e6c7a;
+    }
+
+    /* Giao diện chính của Web Học tập */
+    #main-app {
+      display: none;
+    }
+
+    /* Top Bar Header */
+    .top-header {
+      background-color: #ffffff;
+      height: 64px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eef2f5;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      background-color: #168a9b;
+      color: #ffffff;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 16px;
+      color: #168a9b;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-sub {
+      font-size: 9px;
+      color: #7f8c8d;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-avatar {
+      background-color: #48bb78;
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: #2d3748;
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: #718096;
+    }
+
+    .btn-logout {
+      background-color: #edf2f7;
+      color: #e53e3e;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-logout:hover {
+      background-color: #fed7d7;
+    }
+
+    /* Navigation */
+    .main-nav {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 8px;
+      text-decoration: none;
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 600;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #0077cc;
+      border-bottom-color: #0077cc;
+    }
+
+    .nav-item:hover {
+      color: #0077cc;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1140px;
+      margin: 24px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* Hero Banner */
+    .hero-card {
+      background: linear-gradient(135deg, #09597e, #0e7490);
+      border-radius: 16px;
+      padding: 28px 36px;
+      color: #ffffff;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(9, 89, 126, 0.15);
+    }
+
+    .hero-subtitle {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      opacity: 0.85;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #718096;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #09597e;
+    }
+
+    /* Alert Banner */
+    .alert-banner {
+      background-color: #fff8e6;
+      border: 1px solid #ffe8b3;
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      color: #8a5340;
+      margin-bottom: 32px;
+    }
+
+    /* Section Common */
+    .section-block {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    /* Subjects Grid */
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .subject-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      border-top-width: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    }
+
+    .card-teal { border-top-color: #14b8a6; }
+    .card-orange { border-top-color: #f59e0b; }
+    .card-purple { border-top-color: #8b5cf6; }
+    .card-pink { border-top-color: #f43f5e; }
+    .card-green { border-top-color: #10b981; }
+    .card-blue { border-top-color: #0ea5e9; }
+
+    .subject-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 10px 0 4px;
+    }
+
+    .subject-meta {
+      font-size: 12.5px;
+      color: #718096;
+    }
+
+    /* Task List */
+    .tasks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .task-item {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px 24px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .task-item:hover {
+      background-color: #fafbfc;
+    }
+
+    .task-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .task-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    .task-sub {
+      font-size: 12.5px;
+      color: #718096;
+    }
+
+    .task-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-tag {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .tag-warning { background-color: #fff3c4; color: #b45309; }
+    .tag-info { background-color: #e0f2fe; color: #0369a1; }
+
+    .btn-action {
+      background-color: #0077cc;
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* Page View Dynamic */
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #e2e8f0;
+      color: #2d3748;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      border: none;
+    }
+
+    .btn-back:hover {
+      background: #cbd5e0;
+    }
+
+    .detail-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .lesson-item {
+      padding: 16px;
+      border: 1px solid #edf2f7;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Style Upload Box */
+    .upload-box {
+      border: 2px dashed #cbd5e0;
+      border-radius: 10px;
+      padding: 24px;
+      text-align: center;
+      background-color: #f8fafc;
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+
+    .upload-label {
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .file-input { display: none; }
+
+    .file-info {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #2b6cb0;
+      font-weight: 600;
+    }
+
+    /* Table cho Lịch sử học tập / Lưu vết */
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .history-table th, .history-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
+    }
+
+    .history-table th {
+      background-color: #f7fafc;
+      color: #4a5568;
+      font-weight: 700;
+    }
+
+    .badge-score {
+      background-color: #dcfce7;
+      color: #15803d;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MÀN HÌNH ĐĂNG NHẬP (LOGIN SCREEN) -->
+  <div id="login-screen" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">V</div>
+      <h2 class="login-title">VTO EDULAB</h2>
+      <p class="login-sub">TRƯỜNG TIỂU HỌC NGUYỄN VĂN TỐ</p>
+      
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="username">Mã định danh / Tên đăng nhập</label>
+          <input type="text" id="username" class="form-input" placeholder="Nhập tên đăng nhập..." required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="password">Mật khẩu học sinh</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••" required autocomplete="off">
+        </div>
+        <div id="login-error" class="login-error">Tên đăng nhập hoặc mật khẩu không chính xác!</div>
+        <button type="submit" class="btn-login">Đăng nhập hệ thống</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- GIAO DIỆN CHÍNH (MAIN APP) -->
+  <div id="main-app">
+    <!-- Top Bar Header -->
+    <header class="top-header">
+      <div class="header-left" onclick="showPage('home-page')">
+        <div class="logo-icon">V</div>
+        <div class="logo-text">
+          <div class="brand-name">VTO EDULAB</div>
+          <div class="brand-sub">TRƯỜNG TIỂU HỌC NGUYỄN VĂN TỐ</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="user-avatar">MA</div>
+        <div class="user-info">
+          <span class="user-name">Minh Anh</span>
+          <span class="user-role">Học sinh • Lớp 5A1 • TH Nguyễn Văn Tố</span>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">
+          <i data-lucide="log-out" size="14"></i> Đăng xuất
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <div class="nav-item active" onclick="switchNav(this, 'home-page')"><i data-lucide="home"></i> Trang chủ</div>
+        <div class="nav-item" onclick="switchNav(this, 'detail-page')"><i data-lucide="book-open"></i> Môn học</div>
+        <div class="nav-item" onclick="switchNav(this, 'task-page')"><i data-lucide="edit-3"></i> Tương tác & Bài tập</div>
+        <div class="nav-item" onclick="switchNav(this, 'history-page')"><i data-lucide="history"></i> Nhật ký & Lưu vết học tập</div>
+        <div class="nav-item"><i data-lucide="book-marked"></i> Thư viện</div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+
+      <!-- PAGE 1: TRANG CHỦ -->
+      <div id="home-page" class="page-section active">
+        <section class="hero-card">
+          <div>
+            <span class="hero-subtitle">HỆ THỐNG LƯU VẾT & TƯƠNG TÁC HỌC TẬP</span>
+            <h1 class="hero-title">Chào Minh Anh! 🌻</h1>
+            <p class="hero-desc">Theo dõi tiến độ, lưu lại lịch sử làm bài và tương tác trực tiếp cùng các thầy cô!</p>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <div class="stat-card" onclick="showPage('detail-page')">
+            <div class="stat-header"><i data-lucide="book-open"></i> Bài giảng mới</div>
+            <div class="stat-value">03</div>
+          </div>
+          <div class="stat-card" onclick="showPage('task-page')">
+            <div class="stat-header"><i data-lucide="edit-3"></i> Bài tập cần làm</div>
+            <div class="stat-value">02</div>
+          </div>
+          <div class="stat-card" onclick="showPage('history-page')">
+            <div class="stat-header"><i data-lucide="award"></i> Bài đã hoàn thành</div>
+            <div class="stat-value">18</div>
+          </div>
+        </section>
+
+        <div class="alert-banner">
+          <i data-lucide="bell"></i>
+          <span><strong>Thông báo từ lớp:</strong> Thầy cô đã cập nhật điểm bài tương tác tuần này vào hệ thống lưu vết.</span>
+        </div>
+
+        <section class="section-block">
+          <div class="section-header">
+            <h2>Môn học của em</h2>
+          </div>
+          <div class="subjects-grid">
+            <div class="subject-card card-teal" onclick="openSubjectDetail('Toán', 'Cô Hoàng Hà')">
+              <i data-lucide="calculator" size="32"></i>
+              <h3 class="subject-title">Toán</h3>
+              <p class="subject-meta">Giáo viên: Cô Hoàng Hà • 4 bài giảng mới</p>
+            </div>
+            <div class="subject-card card-orange" onclick="openSubjectDetail('Tiếng Việt', 'Cô Hoàng Ngân')">
+              <i data-lucide="book-type" size="32"></i>
+              <h3 class="subject-title">Tiếng Việt</h3>
+              <p class="subject-meta">Giáo viên: Cô Hoàng Ngân • 3 bài giảng mới</p>
+            </div>
+            <div class="subject-card card-purple" onclick="openSubjectDetail('Khoa học', 'Cô Hoàng Ngân')">
+              <i data-lucide="flask-conical" size="32"></i>
+              <h3 class="subject-title">Khoa học</h3>
+              <p class="subject-meta">2 bài giảng</p>
+            </div>
+            <div class="subject-card card-pink" onclick="openSubjectDetail('Lịch sử và Địa lí', 'Cô Hoàng Ngân')">
+              <i data-lucide="globe" size="32"></i>
+              <h3 class="subject-title">Lịch sử và Địa lí</h3>
+              <p class="subject-meta">2 bài giảng</p>
+            </div>
+            <div class="subject-card card-green" onclick="openSubjectDetail('Tin học và Công nghệ', 'Cô Bích')">
+              <i data-lucide="monitor" size="32"></i>
+              <h3 class="subject-title">Tin học và Công nghệ</h3>
+              <p class="subject-meta">Giáo viên: Cô Bích • 1 bài giảng</p>
+            </div>
+            <div class="subject-card card-blue" onclick="openSubjectDetail('STEM', 'Cô Bích')">
+              <i data-lucide="rocket" size="32"></i>
+              <h3 class="subject-title">STEM</h3>
+              <p class="subject-meta">1 hoạt động khám phá</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-header">
+            <h2>Nhiệm vụ gần đây</h2>
+          </div>
+          <div class="tasks-list">
+            <div class="task-item" onclick="openTaskDetail('Luyện tập tuần 9', 'Cô Hoàng Ngân')">
+              <div class="task-left">
+                <i data-lucide="file-text" color="#d97706"></i>
+                <div>
+                  <h4 class="task-name">Luyện tập tuần 9</h4>
+                  <p class="task-sub">Tiếng Việt • Cô Hoàng Ngân • Hạn 07/11/2026</p>
+                </div>
+              </div>
+              <div class="task-right">
+                <span class="status-tag tag-warning">Chưa làm</span>
+                <button class="btn-action">Làm bài</button>
+              </div>
+            </div>
+            <div class="task-item" onclick="showPage('history-page')">
+              <div class="task-left">
+                <i data-lucide="check-circle-2" color="#0369a1"></i>
+                <div>
+                  <h4 class="task-name">Ôn tập số thập phân</h4>
+                  <p class="task-sub">Toán • Cô Hoàng Hà • Hạn 06/11/2026</p>
+                </div>
+              </div>
+              <div class="task-right">
+                <span class="status-tag tag-info">Đã nộp & Lưu vết</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- PAGE 2: CHI TIẾT MÔN HỌC -->
+      <div id="detail-page" class="page-section">
+        <button class="btn-back" onclick="showPage('home-page')">← Quay lại trang chủ</button>
+        <div class="detail-card">
+          <h1 id="detail-title" style="margin-bottom: 4px; color: #09597e;">Bài học trên lớp</h1>
+          <p id="detail-teacher" style="color: #4a5568; font-weight: 600; margin-bottom: 24px;">Giáo viên giảng dạy: Cô Hoàng Hà</p>
+
+          <div class="lesson-item">
+            <div>
+              <h4 style="font-size: 15px;">Bài 1: Lý thuyết bài học & Trắc nghiệm nhanh</h4>
+              <p style="font-size: 13px; color: #a0aec0;">Tương tác tại lớp • Đã hoàn thành</p>
+            </div>
+            <button class="btn-action" onclick="showPage('task-page')">Tương tác ngay</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE 3: TƯƠNG TÁC TẠI LỚP & BÀI TẬP -->
+      <div id="task-page" class="page-section">
+        <button class="btn-back" onclick="showPage('home-page')">← Quay lại trang chủ</button>
+        <div class="detail-card">
+          <h1 id="task-title" style="margin-bottom: 4px; color: #0077cc;">Trắc nghiệm tương tác tại lớp</h1>
+          <p id="task-teacher" style="color: #4a5568; font-weight: 600; margin-bottom: 20px;">Giáo viên phụ trách: Cô Hoàng Ngân</p>
+
+          <div style="background: #f7fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="font-size: 16px; margin-bottom: 12px;">Câu hỏi kiểm tra nhanh tại lớp (Quizz số 1):</h3>
+            <p style="margin-bottom: 10px; font-weight: 500;">Từ nào dưới đây là từ đồng nghĩa với "Học tập"?</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <label><input type="radio" name="q1" value="A"> A. Học hành</label>
+              <label><input type="radio" name="q1" value="B"> B. Vui chơi</label>
+              <label><input type="radio" name="q1" value="C"> C. Lười biếng</label>
+            </div>
+          </div>
+
+          <h3 style="font-size: 16px; margin-top: 24px; color: #2d3748;">Nộp ảnh chụp bài làm / File bài viết (Nếu làm tại nhà):</h3>
+          <div class="upload-box">
+            <label class="upload-label" for="file-upload">
+              <i data-lucide="upload-cloud" size="36" color="#0077cc"></i>
+              <span>Bấm vào đây để tải tệp lên</span>
+              <span style="font-size: 12px; color: #a0aec0;">(Tự động ghi nhận vào sổ nhật ký lưu vết học tập)</span>
+            </label>
+            <input type="file" id="file-upload" class="file-input" onchange="handleFileSelect(event)">
+            <div id="file-info" class="file-info"></div>
+          </div>
+
+          <button class="btn-action" style="padding: 10px 24px; font-size: 15px;" onclick="submitAssignment()">Nộp bài & Lưu kết quả vào hệ thống</button>
+        </div>
+      </div>
+
+      <!-- PAGE 4: LỊCH SỬ LƯU VẾT HỌC TẬP -->
+      <div id="history-page" class="page-section">
+        <button class="btn-back" onclick="showPage('home-page')">← Quay lại trang chủ</button>
+        <div class="detail-card">
+          <h1 style="margin-bottom: 8px; color: #09597e;"><i data-lucide="history"></i> Nhật ký & Lưu vết quá trình học tập</h1>
+          <p style="color: #718096; margin-bottom: 20px;">Hệ thống tự động ghi nhận bài làm tương tác trên lớp và tại nhà của học sinh Minh Anh xuyên suốt năm học.</p>
+
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Ngày nộp</th>
+                <th>Tên bài kiểm tra / Bài tập</th>
+                <th>Môn học</th>
+                <th>Giáo viên</th>
+                <th>Hình thức</th>
+                <th>Kết quả</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <tr>
+                <td>06/11/2026</td>
+                <td>Ôn tập số thập phân</td>
+                <td>Toán</td>
+                <td>Cô Hoàng Hà</td>
+                <td>Tương tác tại lớp</td>
+                <td><span class="badge-score">10 / 10 Điểm</span></td>
+              </tr>
+              <tr>
+                <td>02/11/2026</td>
+                <td>Bài Quizz kiểm tra nhanh</td>
+                <td>Tiếng Việt</td>
+                <td>Cô Hoàng Ngân</td>
+                <td>Quizz trực tuyến</td>
+                <td><span class="badge-score">9 / 10 Điểm</span></td>
+              </tr>
+              <tr>
+                <td>28/10/2026</td>
+                <td>Thực hành Tin học 5</td>
+                <td>Tin học và Công nghệ</td>
+                <td>Cô Bích</td>
+                <td>Tải tệp bài làm</td>
+                <td><span class="badge-score">Đạt yêu cầu</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Xử lý Đăng nhập & Hiển thị thông báo chúc mừng
+    function handleLogin(event) {
+      event.preventDefault();
+      const userVal = document.getElementById('username').value.trim();
+      const passVal = document.getElementById('password').value.trim();
+      const errorDiv = document.getElementById('login-error');
+
+      // Kiểm tra chính xác Minhanh@123 và Minhanh123
+      if (userVal.toLowerCase() === 'minhanh@123' && passVal.toLowerCase() === 'minhanh123') {
+        errorDiv.style.display = 'none';
+        
+        // Hiện hộp thoại chúc mừng học sinh Minh Anh đăng nhập thành công
+        alert("🎉 Chúc mừng học sinh Minh Anh đã đăng nhập thành công vào hệ thống VTO EDULAB!");
+
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+      } else {
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    // Xử lý Đăng xuất
+    function handleLogout() {
+      document.getElementById('main-app').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page-section').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function switchNav(element, pageId) {
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      element.classList.add('active');
+      showPage(pageId);
+    }
+
+    function openSubjectDetail(subjectName, teacherName) {
+      document.getElementById('detail-title').innerText = "Môn học: " + subjectName;
+      if (teacherName) {
+        document.getElementById('detail-teacher').innerText = "Giáo viên giảng dạy: " + teacherName;
+      }
+      showPage('detail-page');
+    }
+
+    function openTaskDetail(taskName, teacherName) {
+      document.getElementById('task-title').innerText = "Bài tập: " + taskName;
+      if (teacherName) {
+        document.getElementById('task-teacher').innerText = "Giáo viên phụ trách: " + teacherName;
+      }
+      document.getElementById('file-upload').value = '';
+      document.getElementById('file-info').innerText = '';
+      showPage('task-page');
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('file-info').innerText = "📎 Đã chọn tệp: " + file.name;
+      }
+    }
+
+    function submitAssignment() {
+      const fileInput = document.getElementById('file-upload');
+      const now = new Date();
+      const dateStr = now.getDate().toString().padStart(2, '0') + '/' + (now.getMonth()+1).toString().padStart(2, '0') + '/' + now.getFullYear();
+
+      const tbody = document.getElementById('history-tbody');
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${dateStr}</td>
+        <td>Luyện tập tuần 9</td>
+        <td>Tiếng Việt</td>
+        <td>Cô Hoàng Ngân</td>
+        <td>${fileInput.files.length > 0 ? 'Tải tệp lên' : 'Quizz trực tuyến'}</td>
+        <td><span class="badge-score">Đã lưu vết (10/10)</span></td>
+      `;
+      tbody.insertBefore(newRow, tbody.firstChild);
+
+      alert("🎉 Đã gửi bài thành công! Hệ thống đã ghi nhận và lưu vết kết quả làm bài của Minh Anh vào Sổ nhật ký học tập.");
+      showPage('history-page');
+    }
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
